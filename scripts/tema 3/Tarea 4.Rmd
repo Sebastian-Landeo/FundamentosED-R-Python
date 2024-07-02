@@ -1,0 +1,123 @@
+---
+title: "Tarea 4"
+author: "Sebastian Landeo"
+date: "2024-06-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+$$\begin{pmatrix} 1 & 2 & 3 & 4\\ 4 & 3 & 2 & 1 \\ 0 & 1 & 0 & 2 \\3 & 0 & 4 & 0 \end{pmatrix}$$
+```{r MatrizA, comment=NA}
+A = matrix(c(1,2,3,4,4,3,2,1,0,1,0,2,3,0,4,0), nrow = 4, byrow = TRUE)
+A
+```
+$$\begin{pmatrix} 4 & 3 & 2 & 1\\ 0 & 3 & 0 & 4 \\ 1 & 2 & 3 & 4 \\0 & 1 & 0 & 2 \end{pmatrix}$$
+```{r MatrizB, comment=NA}
+B = matrix(c(4,3,2,1,0,3,0,4,1,2,3,4,0,1,0,2), nrow = 4, byrow = TRUE)
+B
+```
+El codigo en r es `r sqrt(2)`
+
+## Pregunta 1
+Realiza los siguientes productos de matrices siguiente en R 
+
+$$A\cdot B$$
+```{r}
+p1 = A %*% B
+p1
+```
+$$B \cdot A$$
+```{r}
+p2 = B %*% A
+p2
+```
+
+$$(A \cdot B)^{t}$$
+```{r}
+p3 = t(A %*% B)
+p3
+```
+
+$$B^{t} \cdot A$$
+```{r}
+p4 = t(B)%*%A
+p4
+```
+
+$$(A \cdot B)^{-1}$$
+```{r}
+p5 = solve(A%*%B)
+p5
+```
+
+$$A^{-1} \cdot B^{t}$$
+```{r}
+p6 = solve(A)%*%t(B)
+p6
+```
+## Pregunta 2
+Considera en un vector los números de tu DNI (puedes inventártelos) y llámalo dni. Por ejemplo, si tu DNI
+es 54201567K, tu vector será
+$$dni = (5,4,2,0,1,5,6,7)$$
+Define el vector en R. Calcula con R el vector dni al cuadrado, la raíz cuadrada del vector dni y, por último,
+la suma de todas las cifras del vector dni.
+
+Redacta todos tus resultados y utiliza $LaTeX$ cuando pertoque.
+
+
+Para el primer caso, escribimos el siguiente código: 
+
+Si escribes un r
+
+Obs: Las variables de r si se guardan si se encuentran dentro de un bloque r o un chunk r. Si es un chunk sin r no se guarda
+```{r}
+dni = c(5, 4, 2, 0, 1, 5, 6, 7)
+```
+
+
+Hallamos la raíz elevada al cuadrado `r dni^2`
+
+Hallamos la raíz cuadrada `r sqrt(dni)`
+
+Hallamos la suma de dígitos `r sum(dni)`
+
+
+Para el primer caso, escribimos el siguiente código: `r dni2 = c(5, 4, 2, 0, 1, 5, 6, 7)`
+
+Hallamos la raíz elevada al cuadrado `r dni2^2`
+
+Hallamos la raíz cuadrada `r sqrt(dni2)`
+
+Hallamos la suma de dígitos `r sum(dni2)`
+
+Si escribes dni2 = c(5, 4, 2, 0, 1, 5, 6, 7) , sin el r, no se guarda
+
+## Pregunta 3
+
+Considera el vector de las letras de tu nombre y apellido. Llámalo name. Por ejemplo, name=(M, A,R, I, A, S, A,N, T,O,S)
+Define dicho vector en R. Calcula el subvector que solo contenga tu nombre. Calcula también el subvector que contenga solo tu apellido. Ordénalo alfabéticamente. Crea una matriz con este vector.
+
+Definimos el siguiente vector: `r name <- c("J", "o", "r", "g", "e", "P", "e", "r", "e", "z")`
+```{r}
+name
+```
+Obs: Podemos mostrar el resultado con código  r chunk también, mediante la separación con comas
+
+Acumulamos el nombre `r nombres = name[1:5]; nombres`
+
+Acumulamos el apellido `r apellidos = name[-c(1:5)]; apellidos`
+
+Creamos la matriz del nombre:
+
+```{r}
+matriz_nombre = matrix(sort(name), nrow = 2, ncol = 5, byrow = TRUE )
+matriz_nombre
+```
+
+La matriz resultante es: `r matriz_nombre`
+
+
+
+

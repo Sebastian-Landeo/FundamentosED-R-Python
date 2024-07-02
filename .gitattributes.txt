@@ -1,0 +1,11 @@
+# Normalizar los finales de línea para archivos de Jupyter Notebook
+*.ipynb text eol=lf
+
+# Normalizar los finales de línea para otros archivos de texto
+*.txt text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+
+# Archivos binarios (sin conversión de finales de línea)
+*.png binary
+*.jpg binary

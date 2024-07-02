@@ -1,0 +1,32 @@
+---
+title: "Gráficos"
+author: "Sebastian Landeo"
+date: "2024-06-28"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Gráficos con la función `plot`
+```{r ejemplo1}
+alumnos = c(1:10)
+notas = c(2,5,7,9,8,3,5,6,10,7)
+plot(alumnos, notas)
+```
+
+```{r primer_plot, fig.cap="Gráfico básico explicando el uso del plot",fig.align ='center'}
+x= c(2, 6, 4, 9, -1)
+y = c(1, 8, 4, -2, 4)
+plot(x,y)
+```
+3
+ 
+
+
+
+
+
+

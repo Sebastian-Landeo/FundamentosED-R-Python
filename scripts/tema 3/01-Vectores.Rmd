@@ -1,0 +1,16 @@
+---
+title: "Tema 3"
+author: "Sebastian Landeo"
+date: "2024-06-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+c(1,2,3)
+rep("Mates", 7)
+```
+
