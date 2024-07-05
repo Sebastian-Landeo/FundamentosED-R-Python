@@ -1,0 +1,22 @@
+---
+title: "Tarea 6"
+author: "Sebastian Landeo"
+date: "2024-07-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r Ejercicio1}
+parabola <- function(x){x^2-3*x+30}
+plot(parabola, xlim = c(-15,15), xlab=expression(x), ylab=expression(x^2-3*x+30), main = "Una Parábola" )
+```
+```{r}
+curve(parabola, xlim = c(-15,15), xlab=expression(x), ylab=expression(x^2-3*x+30), main = "Una Parábola" )
+```
+```{r}
+y <- function(x){5*2^x}
+curve(y, xlim = c(-1,25), xlab = expression(x), ylab = expression(5 %*% 2^x), main = "Semilogaritmico")
+```
+

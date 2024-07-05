@@ -183,6 +183,43 @@ legend(posición, legend = ...): para añadir una leyenda\
   - "center"/"right"/"left"\
 - legend: contiene el vector de nombres entre comillas con los que queremos identificar a las curvas en la leyenda\
 
+```{r}
+x = seq(0,2*pi,0.1)
+plot(x,sin(x),type="l",col="blue",lwd=3, xlab="", ylab ="")
+lines(x,cos(x),col="green",lwd=3)
+lines(x,tan(x),col="purple",lwd=3)
+legend("bottomleft", col = c("blue","green", "purple"), legend = c("Seno", "Coseno", "Tangente"), lwd = 3, bty="l")
+```
+```{r}
+f <- function(x){x^2}
+plot(f, xlim=c(-3,3), ylim = c(-10,10))
+points(-3:3, f(-3:3), pch = 19)
+lines(-3:3, f(-3:3), lwd=2, lty = "dotted", col="red")
+curve(x^3, lty = "dashed", col = "blue", add = TRUE)
+curve(x^4, lty = "dashed", col = "orangered", add = TRUE)
+legend("bottomright",
+       legend = c(expression(x^2), expression(x^3), expression(x^4)),
+       lwd = 2,
+       col = c("red","blue","orangered"),
+       lty = c("dotted", "dashed", "dashed")
+       ) 
+```
+Añadir elementos al gráfico\
+- segments: para añadir segmentos a un gráfico existente\
+- arrows: para añadir flechas a un gráfico existente\
+- symbols: para añadir símbolos a un gráfico existente\
+- polygon: para añadir polígonos cerrados especificando sus vértices a un gráfico existente\
+
+```{r}
+x = c(5*(1:10))
+plot(x, c(exp(-x)+(-1)^x*x/2*sin(x)^2), xlab = "", ylab = "",
+     main = "Grafico con varios elementos")
+segments(10,0,40,0, col = "red", lwd = 4)
+arrows(10,0,40,-10, col="blue", length = 0.5, angle = 5, code = 3)
+symbols(40,0,stars=cbind(1,.5,1,.5,1,.5,1,.5,1,.5), add = TRUE, lwd = 3, inches = 0.5)
+symbols(40,0,stars=cbind(1,.5,1,.5,1,.5,1,.5,1,.5), add = TRUE, lwd = 3)
+polygon(c(20,30,40), c(10,-10,10), col = "gold", density = 3, angle = 90, lty = 4, lwd = 5)
+```
 
 
 
