@@ -12,11 +12,60 @@ knitr::opts_chunk$set(echo = TRUE)
 parabola <- function(x){x^2-3*x+30}
 plot(parabola, xlim = c(-15,15), xlab=expression(x), ylab=expression(x^2-3*x+30), main = "Una Parábola" )
 ```
-```{r}
+```{r Ejercicio2}
 curve(parabola, xlim = c(-15,15), xlab=expression(x), ylab=expression(x^2-3*x+30), main = "Una Parábola" )
 ```
-```{r}
+```{r Ejercicio3}
 y <- function(x){5*2^x}
-curve(y, xlim = c(-1,25), xlab = expression(x), ylab = expression(5 %*% 2^x), main = "Semilogaritmico")
+curve(y, xlim = c(-1,25), xlab = expression(x), ylab = expression(5%.%2^x), main = "Semilogaritmico")
+```
+```{r Ejercicio4}
+curve(3*x, xlim= c(-10,20), ylim = c(-60,60), col = "blue", main = "2 rectas", ylab = expression(y))
+mtext("Dos rectas con pendiente opuesto")
+curve(-3*x, xlim = c(-10,20), col = "green", add = TRUE)
+legend("topleft", col = c("blue","green"), legend = c(expression(3*x),expression(-3*x)), lty = c("solid","solid"))
+```
+```{r Ejercicio5}
+curve(3*x, xlim= c(-10,20), ylim = c(-60,60), col = "blue", main = "2 rectas", ylab = expression(y))
+mtext("Dos rectas con pendiente opuesto")
+curve(-3*x, xlim = c(-10,20), col = "green", add = TRUE)
+abline(h=0, lty = 1,lwd=5, col="red")
+legend("topleft", col = c("blue","green"), legend = c(expression(3*x),expression(-3*x)), lty = c("solid","solid"))
+```
+```{r Ejercicio6}
+curve(3*x, xlim= c(-10,20), ylim = c(-60,60), col = "blue", main = "2 rectas", ylab = expression(y))
+mtext("Dos rectas con pendiente opuesto")
+curve(-3*x, xlim = c(-10,20), col = "green", add = TRUE)
+abline(h=0, lty = 1,lwd=5, col="red")
+legend("topleft", col = c("blue","green"), legend = c(expression(3*x),expression(-3*x)), lty = c("solid","solid"))
+plot(2*x+7, xlim = c(-10,20), lwd = 2, col = "blue", add = TRUE)
+```
+No puedes añadir gráficos plot
+```{r Ejercicio6.1}
+curve(3*x, xlim= c(-10,20), ylim = c(-60,60), col = "blue", main = "2 rectas", ylab = expression(y))
+mtext("Dos rectas con pendiente opuesto")
+curve(-3*x, xlim = c(-10,20), col = "green", add = TRUE)
+abline(h=0, lty = 1,lwd=5, col="red")
+legend("topleft", col = c("blue","green"), legend = c(expression(3*x),expression(-3*x)), lty = c("solid","solid"))
+curve(2*x + 7, lwd = 2, col = "blue", add = TRUE)
+```
+A lines no se le puede poner ADD, y por lo que veo va a su bola (no tiene un intervalo x al que deba respetar)
+¿Por que?
+La línea no respeta el intervalo de xx de −10−10 a 2020 porque la función lines requiere un vector de xx y un vector correspondiente de yy para dibujar la línea. Debes proporcionar estos vectores explícitamente.
+```{r Ejercicio6.2}
+curve(3*x, xlim= c(-10,20), ylim = c(-60,60), col = "blue", main = "2 rectas", ylab = expression(y))
+mtext("Dos rectas con pendiente opuesto")
+curve(-3*x, xlim = c(-10,20), col = "green", add = TRUE)
+abline(h=0, lty = 1,lwd=5, col="red")
+legend("topleft", col = c("blue","green"), legend = c(expression(3*x),expression(-3*x)), lty = c("solid","solid"))
+lines(2*x + 7, xlim= c(-10,20),lwd = 2, col = "blue")
+```
+```{r}
+curve(3 * x, -10, 20, xlab = "", ylab = "",
+      col = "blue", main = "2 rectas", sub = "Dos rectas con pendiente opuesto") 
+curve(-3 * x, col = "green", add = TRUE) 
+legend(13, 10, legend = c("3x","-3x"), lty = c(1, 1), col = c("blue", "green"))
+abline(h = 0, col = "red", lwd = 5) 
+abline(7, 2, col = "blue", lwd = 2) 
 ```
 
