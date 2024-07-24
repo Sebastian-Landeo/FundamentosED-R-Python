@@ -1,0 +1,49 @@
+---
+title: "Tema5"
+author: "Sebastian Landeo"
+date: "2024-07-21"
+output: html_document
+---
+data(): para abrir una ventana con los data frames con acceso en la sesión actual de R
+data(package = .packages(all.available = TRUE)): Igual, pero incluye los paquetes que no estén cargados en la sesión actual
+data(package="nombre del paquete"): Busca data frames en un paquete en específico. Ejm: data(package="ggplot2")
+?iris: Muestra detalles de un data set en específico
+Esto lo uso Fisher. Iris son flores con 3 tipos de especie: setosa, veriscolor, virginica
+
+```{r}
+df = iris
+head(df, 5)
+tail(df, 5)
+names(df)
+str(df)
+
+rownames(df)
+colnames(df)
+dimnames(df)
+nrow(df)
+ncol(df)
+dim(df)
+
+df$Petal.Length[1:10]
+df$Species[1:10]
+1:10
+c(1:10)
+```
+```{r}
+df[1:10,]
+df[1:10, 2:4]
+df[df$Species == "setosa" & df$Sepal.Width>4, ]
+df[df$Species == "setosa" & df$Sepal.Width>4, ][c(1,3), c(2,5)]
+```
+```{r}
+dataOrange = Orange
+dataOrange
+dataOrange[c(10:12), ]
+dataOrange[c(2,17), c(1,3)]
+dataOrange[2,3]
+dataOrange[dataOrange$circumference<=50,]
+```
+
+
+
+

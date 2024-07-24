@@ -1,0 +1,61 @@
+---
+title: "Carga de DF"
+author: "Sebastian Landeo"
+date: "2024-07-22"
+output: html_document
+---
+```{r}
+df = read.table("../../data/bulls.dat",
+                header = FALSE,
+                col.names = c("breed", "sale_price", "shoulder",
+                              "fat_free", "percent_ff", "frame_scale",
+                              "back_fat", "sale_height", "sale_weight"),
+                sep = "", dec = ".")
+head(df)
+```
+# Obteniendo un DF desde la web
+```{r}
+library(RCurl)
+# Obtener el archivo de datos desde la URL correcta
+# Incorrecto="https://archive.ics.uci.edu/dataset/2/adult"
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
+data <- getURL(url)
+
+# Leer el archivo de datos en un dataframe
+df3 <- read.table(textConnection(data), sep = ",", header = FALSE, strip.white = TRUE)
+colnames(df3) <- c("age", "workclass", "fnlwgt", "education", "education_num",
+                   "marital_status", "occupation", "relationship", "race",
+                   "sex", "capital_gain", "capital_loss", "hours_per_week",
+                   "native_country", "income")
+
+# Mostrar las primeras filas del dataframe
+head(df3)
+str(df3)
+```
+# Guardar un DF
+```{r}
+write.table(df3, file="../../data/adult.text", dec=".")
+df4 = read.table("../../data/adult.text", dec=".")
+head(df4)
+str(df4)
+```
+# Construyendo data frames
+```{r}
+Algebra = c(1,2,0,5,4,6,7,5,5,8)
+Analysis = c(3,3,2,7,9,5,6,8,5,6)
+Statistics = c(4,5,4,8,8,9,6,7,9,10)
+grades = data.frame(Algebra, Analysis, Statistics)
+str(grades)
+```
+```{r}
+genero = c("Hombre","Mujer","Hombre","Mujer")
+edad = c(25,35,28,30)
+hijos = c(1,3,2,2)
+padres = data.frame(genero, edad, hijos, stringsAsFactors = TRUE)
+head(padres)
+str(padres)
+```
+
+
+
+
