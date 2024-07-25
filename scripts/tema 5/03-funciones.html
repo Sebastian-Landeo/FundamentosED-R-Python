@@ -11,9 +11,9 @@
 
 <meta name="author" content="Sebastian Landeo" />
 
-<meta name="date" content="2024-07-22" />
+<meta name="date" content="2024-07-25" />
 
-<title>Carga de DF</title>
+<title>Funciones con DF</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,227 +350,30 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Carga de DF</h1>
+<h1 class="title toc-ignore">Funciones con DF</h1>
 <h4 class="author">Sebastian Landeo</h4>
-<h4 class="date">2024-07-22</h4>
+<h4 class="date">2024-07-25</h4>
 
 </div>
 
 
-<pre class="r"><code>df = read.table(&quot;../../data/bulls.dat&quot;,
-                header = FALSE,
-                col.names = c(&quot;breed&quot;, &quot;sale_price&quot;, &quot;shoulder&quot;,
-                              &quot;fat_free&quot;, &quot;percent_ff&quot;, &quot;frame_scale&quot;,
-                              &quot;back_fat&quot;, &quot;sale_height&quot;, &quot;sale_weight&quot;),
-                sep = &quot;&quot;, dec = &quot;.&quot;)
-head(df)</code></pre>
-<pre><code>##   breed sale_price shoulder fat_free percent_ff frame_scale back_fat
-## 1     1       2200     51.0     1128       70.9           7     0.25
-## 2     1       2250     51.9     1108       72.1           7     0.25
-## 3     1       1625     49.9     1011       71.6           6     0.15
-## 4     1       4600     53.1      993       68.9           8     0.35
-## 5     1       2150     51.2      996       68.6           7     0.25
-## 6     1       1225     49.2      985       71.4           6     0.15
-##   sale_height sale_weight
-## 1        54.8        1720
-## 2        55.3        1575
-## 3        53.1        1410
-## 4        56.4        1595
-## 5        55.0        1488
-## 6        51.4        1500</code></pre>
-<div id="obteniendo-un-df-desde-la-web" class="section level1">
-<h1>Obteniendo un DF desde la web</h1>
-<pre class="r"><code>library(RCurl)</code></pre>
-<pre><code>## Warning: package &#39;RCurl&#39; was built under R version 4.4.1</code></pre>
-<pre class="r"><code># Obtener el archivo de datos desde la URL correcta
-# Incorrecto=&quot;https://archive.ics.uci.edu/dataset/2/adult&quot;
-url &lt;- &quot;https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data&quot;
-data &lt;- getURL(url)
-
-# Leer el archivo de datos en un dataframe
-df3 &lt;- read.table(textConnection(data), sep = &quot;,&quot;, header = FALSE, strip.white = TRUE)
-colnames(df3) &lt;- c(&quot;age&quot;, &quot;workclass&quot;, &quot;fnlwgt&quot;, &quot;education&quot;, &quot;education_num&quot;,
-                   &quot;marital_status&quot;, &quot;occupation&quot;, &quot;relationship&quot;, &quot;race&quot;,
-                   &quot;sex&quot;, &quot;capital_gain&quot;, &quot;capital_loss&quot;, &quot;hours_per_week&quot;,
-                   &quot;native_country&quot;, &quot;income&quot;)
-
-# Mostrar las primeras filas del dataframe
-head(df3)</code></pre>
-<pre><code>##   age        workclass fnlwgt education education_num     marital_status
-## 1  39        State-gov  77516 Bachelors            13      Never-married
-## 2  50 Self-emp-not-inc  83311 Bachelors            13 Married-civ-spouse
-## 3  38          Private 215646   HS-grad             9           Divorced
-## 4  53          Private 234721      11th             7 Married-civ-spouse
-## 5  28          Private 338409 Bachelors            13 Married-civ-spouse
-## 6  37          Private 284582   Masters            14 Married-civ-spouse
-##          occupation  relationship  race    sex capital_gain capital_loss
-## 1      Adm-clerical Not-in-family White   Male         2174            0
-## 2   Exec-managerial       Husband White   Male            0            0
-## 3 Handlers-cleaners Not-in-family White   Male            0            0
-## 4 Handlers-cleaners       Husband Black   Male            0            0
-## 5    Prof-specialty          Wife Black Female            0            0
-## 6   Exec-managerial          Wife White Female            0            0
-##   hours_per_week native_country income
-## 1             40  United-States  &lt;=50K
-## 2             13  United-States  &lt;=50K
-## 3             40  United-States  &lt;=50K
-## 4             40  United-States  &lt;=50K
-## 5             40           Cuba  &lt;=50K
-## 6             40  United-States  &lt;=50K</code></pre>
-<pre class="r"><code>str(df3)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    32561 obs. of  15 variables:
-##  $ age           : int  39 50 38 53 28 37 49 52 31 42 ...
-##  $ workclass     : chr  &quot;State-gov&quot; &quot;Self-emp-not-inc&quot; &quot;Private&quot; &quot;Private&quot; ...
-##  $ fnlwgt        : int  77516 83311 215646 234721 338409 284582 160187 209642 45781 159449 ...
-##  $ education     : chr  &quot;Bachelors&quot; &quot;Bachelors&quot; &quot;HS-grad&quot; &quot;11th&quot; ...
-##  $ education_num : int  13 13 9 7 13 14 5 9 14 13 ...
-##  $ marital_status: chr  &quot;Never-married&quot; &quot;Married-civ-spouse&quot; &quot;Divorced&quot; &quot;Married-civ-spouse&quot; ...
-##  $ occupation    : chr  &quot;Adm-clerical&quot; &quot;Exec-managerial&quot; &quot;Handlers-cleaners&quot; &quot;Handlers-cleaners&quot; ...
-##  $ relationship  : chr  &quot;Not-in-family&quot; &quot;Husband&quot; &quot;Not-in-family&quot; &quot;Husband&quot; ...
-##  $ race          : chr  &quot;White&quot; &quot;White&quot; &quot;White&quot; &quot;Black&quot; ...
-##  $ sex           : chr  &quot;Male&quot; &quot;Male&quot; &quot;Male&quot; &quot;Male&quot; ...
-##  $ capital_gain  : int  2174 0 0 0 0 0 0 0 14084 5178 ...
-##  $ capital_loss  : int  0 0 0 0 0 0 0 0 0 0 ...
-##  $ hours_per_week: int  40 13 40 40 40 40 16 45 50 40 ...
-##  $ native_country: chr  &quot;United-States&quot; &quot;United-States&quot; &quot;United-States&quot; &quot;United-States&quot; ...
-##  $ income        : chr  &quot;&lt;=50K&quot; &quot;&lt;=50K&quot; &quot;&lt;=50K&quot; &quot;&lt;=50K&quot; ...</code></pre>
-</div>
-<div id="guardar-un-df" class="section level1">
-<h1>Guardar un DF</h1>
-<pre class="r"><code>write.table(df3, file=&quot;../../data/adult.text&quot;, dec=&quot;.&quot;)
-df4 = read.table(&quot;../../data/adult.text&quot;, dec=&quot;.&quot;)
-head(df4)</code></pre>
-<pre><code>##   age        workclass fnlwgt education education_num     marital_status
-## 1  39        State-gov  77516 Bachelors            13      Never-married
-## 2  50 Self-emp-not-inc  83311 Bachelors            13 Married-civ-spouse
-## 3  38          Private 215646   HS-grad             9           Divorced
-## 4  53          Private 234721      11th             7 Married-civ-spouse
-## 5  28          Private 338409 Bachelors            13 Married-civ-spouse
-## 6  37          Private 284582   Masters            14 Married-civ-spouse
-##          occupation  relationship  race    sex capital_gain capital_loss
-## 1      Adm-clerical Not-in-family White   Male         2174            0
-## 2   Exec-managerial       Husband White   Male            0            0
-## 3 Handlers-cleaners Not-in-family White   Male            0            0
-## 4 Handlers-cleaners       Husband Black   Male            0            0
-## 5    Prof-specialty          Wife Black Female            0            0
-## 6   Exec-managerial          Wife White Female            0            0
-##   hours_per_week native_country income
-## 1             40  United-States  &lt;=50K
-## 2             13  United-States  &lt;=50K
-## 3             40  United-States  &lt;=50K
-## 4             40  United-States  &lt;=50K
-## 5             40           Cuba  &lt;=50K
-## 6             40  United-States  &lt;=50K</code></pre>
-<pre class="r"><code>str(df4)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    32561 obs. of  15 variables:
-##  $ age           : int  39 50 38 53 28 37 49 52 31 42 ...
-##  $ workclass     : chr  &quot;State-gov&quot; &quot;Self-emp-not-inc&quot; &quot;Private&quot; &quot;Private&quot; ...
-##  $ fnlwgt        : int  77516 83311 215646 234721 338409 284582 160187 209642 45781 159449 ...
-##  $ education     : chr  &quot;Bachelors&quot; &quot;Bachelors&quot; &quot;HS-grad&quot; &quot;11th&quot; ...
-##  $ education_num : int  13 13 9 7 13 14 5 9 14 13 ...
-##  $ marital_status: chr  &quot;Never-married&quot; &quot;Married-civ-spouse&quot; &quot;Divorced&quot; &quot;Married-civ-spouse&quot; ...
-##  $ occupation    : chr  &quot;Adm-clerical&quot; &quot;Exec-managerial&quot; &quot;Handlers-cleaners&quot; &quot;Handlers-cleaners&quot; ...
-##  $ relationship  : chr  &quot;Not-in-family&quot; &quot;Husband&quot; &quot;Not-in-family&quot; &quot;Husband&quot; ...
-##  $ race          : chr  &quot;White&quot; &quot;White&quot; &quot;White&quot; &quot;Black&quot; ...
-##  $ sex           : chr  &quot;Male&quot; &quot;Male&quot; &quot;Male&quot; &quot;Male&quot; ...
-##  $ capital_gain  : int  2174 0 0 0 0 0 0 0 14084 5178 ...
-##  $ capital_loss  : int  0 0 0 0 0 0 0 0 0 0 ...
-##  $ hours_per_week: int  40 13 40 40 40 40 16 45 50 40 ...
-##  $ native_country: chr  &quot;United-States&quot; &quot;United-States&quot; &quot;United-States&quot; &quot;United-States&quot; ...
-##  $ income        : chr  &quot;&lt;=50K&quot; &quot;&lt;=50K&quot; &quot;&lt;=50K&quot; &quot;&lt;=50K&quot; ...</code></pre>
-</div>
-<div id="construyendo-data-frames" class="section level1">
-<h1>Construyendo data frames</h1>
-<pre class="r"><code>Algebra = c(1,2,0,5,4,6,7,5,5,8)
-Analysis = c(3,3,2,7,9,5,6,8,5,6)
-Statistics = c(4,5,4,8,8,9,6,7,9,10)
-grades = data.frame(Algebra, Analysis, Statistics)
-str(grades)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    10 obs. of  3 variables:
-##  $ Algebra   : num  1 2 0 5 4 6 7 5 5 8
-##  $ Analysis  : num  3 3 2 7 9 5 6 8 5 6
-##  $ Statistics: num  4 5 4 8 8 9 6 7 9 10</code></pre>
-<pre class="r"><code># Continuación agregando una nueva columna
-Calculus = c(5, 4, 6, 2, 1, 0, 7, 8, 9, 6)
-grades2 = cbind(grades, Calculus)
-head(grades2)</code></pre>
-<pre><code>##   Algebra Analysis Statistics Calculus
-## 1       1        3          4        5
-## 2       2        3          5        4
-## 3       0        2          4        6
-## 4       5        7          8        2
-## 5       4        9          8        1
-## 6       6        5          9        0</code></pre>
-<pre class="r"><code>genero = c(&quot;Hombre&quot;,&quot;Mujer&quot;,&quot;Hombre&quot;,&quot;Mujer&quot;)
-edad = c(25,35,28,30)
-hijos = c(1,3,2,2)
-df5 = data.frame(genero, edad, hijos, stringsAsFactors = TRUE)
-fix(df5)
-names(df5)=c(&quot;gender&quot;, &quot;Age&quot;, &quot;Sons&quot;)
-rownames(df5)=c(&quot;P1&quot;,&quot;P2&quot;,&quot;P3&quot;,&quot;P4&quot;)
-dimnames(df5)=list(
-  c(&quot;Antonio&quot;, &quot;Ricarda&quot;, &quot;JuanGabriel&quot;, &quot;Maria&quot;),
-  c(&quot;Sexo&quot;, &quot;Años&quot;, &quot;MiembrosFamilia&quot;)
-)
-df5 = rbind(df5, c(&quot;Hombre&quot;, 30, 1))
-df5$Sexo = as.character(df5$Sexo)
-str(df5)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    5 obs. of  3 variables:
-##  $ Sexo           : chr  &quot;Hombre&quot; &quot;Mujer&quot; &quot;Hombre&quot; &quot;Mujer&quot; ...
-##  $ Años           : chr  &quot;25&quot; &quot;35&quot; &quot;28&quot; &quot;30&quot; ...
-##  $ MiembrosFamilia: chr  &quot;1&quot; &quot;3&quot; &quot;2&quot; &quot;2&quot; ...</code></pre>
-<pre class="r"><code>df5$Ingresos = c(10000, 12000, 15000, 12000, 20000)
-df5</code></pre>
-<pre><code>##               Sexo Años MiembrosFamilia Ingresos
-## Antonio     Hombre   25               1    10000
-## Ricarda      Mujer   35               3    12000
-## JuanGabriel Hombre   28               2    15000
-## Maria        Mujer   30               2    12000
-## 5           Hombre   30               1    20000</code></pre>
-<pre class="r"><code>genero = c(&quot;Hombre&quot;,&quot;Mujer&quot;,&quot;Hombre&quot;,&quot;Mujer&quot;)
-edad =   c(     25,      35,      28,     30)
-hijos =  c(      1,       3,       2,      2)
-df5 = data.frame(genero, edad, hijos, stringsAsFactors = TRUE)
-df5[df5$genero==&quot;Mujer&quot;, ] -&gt; df_m
-df_m = droplevels(df_m)
-str(df_m)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    2 obs. of  3 variables:
-##  $ genero: Factor w/ 1 level &quot;Mujer&quot;: 1 1
-##  $ edad  : num  35 30
-##  $ hijos : num  3 2</code></pre>
-<p>#Tidyverse</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.4.1</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.2     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ tidyr::complete() masks RCurl::complete()
-## ✖ dplyr::filter()   masks stats::filter()
-## ✖ dplyr::lag()      masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre class="r"><code>iris_petal = select(iris, starts_with(&quot;Petal&quot;))
-head(iris_petal)</code></pre>
-<pre><code>##   Petal.Length Petal.Width
-## 1          1.4         0.2
-## 2          1.4         0.2
-## 3          1.3         0.2
-## 4          1.5         0.2
-## 5          1.4         0.2
-## 6          1.7         0.4</code></pre>
-<pre class="r"><code>iris_lenght = select(iris, ends_with(&quot;Length&quot;))
-head(iris_lenght)</code></pre>
-<pre><code>##   Sepal.Length Petal.Length
-## 1          5.1          1.4
-## 2          4.9          1.4
-## 3          4.7          1.3
-## 4          4.6          1.5
-## 5          5.0          1.4
-## 6          5.4          1.7</code></pre>
-</div>
+<pre class="r"><code>str(iris)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
+##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<pre class="r"><code>sapply(subset(iris, select = 1:4), mean)</code></pre>
+<pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+##     5.843333     3.057333     3.758000     1.199333</code></pre>
+<pre class="r"><code>sapply(iris[,1:4], sum)</code></pre>
+<pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+##        876.5        458.6        563.7        179.9</code></pre>
+<pre class="r"><code>f = function(x){sqrt(sum(x^2))}
+sapply(iris[,1:4], f)</code></pre>
+<pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+##     72.27621     37.82063     50.82037     17.38764</code></pre>
 
 
 
