@@ -1,0 +1,82 @@
+---
+title: "Tarea8"
+author: "Sebastian Landeo"
+date: "2024-07-25"
+output: html_document
+---
+# Pregunta 1
+¿Cuántos deportistas aparecen en el data frame?
+```{r}
+depor = read.csv("../data/medals.csv", stringsAsFactors = TRUE)
+head(depor)
+str(depor)
+# Número de deportistas
+nrow(depor)
+```
+# Pregunta 2
+¿Cuántos deportistas han ganado medallas de oro? ¿Cuántos han ganado medallas de plata? ¿Y cuántos de
+bronce?
+```{r}
+colnames(depor)
+levels(depor$Medal)
+
+oro = depor[depor$Medal=="Gold", ]
+head(oro)
+str(oro)
+nrow(oro)
+
+plata = depor[depor$Medal=="Silver", ]
+head(plata)
+str(plata)
+nrow(plata)
+
+bronce = depor[depor$Medal=="Bronze", ]
+head(bronce)
+str(bronce)
+nrow(bronce)
+
+# Usar cat() para mostrar múltiples elementos
+cat("Numero de medallas de oro:", nrow(oro), " plata:", nrow(plata), " bronce:", nrow(bronce), "\n")
+```
+Forma 2
+```{r}
+aggregate(X~Medal,data=depor, FUN = length)
+```
+
+# Pregunta 3
+¿En cuántos lugares se han hecho olimpiadas de invierno?
+```{r}
+nlevels(depor$City)
+```
+# Pregunta 4
+¿Cuántos hombres y cuántas mujeres hay?
+```{r}
+hombres = depor[depor$Event.gender=="M",]
+nrow(hombres)
+mujeres = depor[depor$Event.gender=="W",]
+nrow(mujeres)
+
+cat("Numero de hombres:", nrow(hombres), " mujeres:", nrow(mujeres), "\n")
+```
+Forma 2
+```{r}
+aggregate(X~Event.gender, data=depor, FUN=length)
+```
+
+# Pregunta 5
+¿En qué año participaron más deportistas?
+```{r}
+depor$Year = as.factor(depor$Year)
+años = aggregate(X~Year, data=depor, FUN=length)
+años_ordenado = años[order(-años$X),]
+años_ordenado
+```
+# Pregunta 6
+El campo NOC indica el país del ganador de la medalla. ¿Qué país puede presumir de haber ganado más
+medallas de oro en los juegos de invierno entre 1960 y 1996?
+```{r}
+library(tidyverse)
+subset(depor, Year>1960 & Year<1996 & Medal=="Gold", select = NOC, Year)
+```
+
+

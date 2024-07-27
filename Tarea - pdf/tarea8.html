@@ -13,7 +13,7 @@
 
 <meta name="date" content="2024-07-25" />
 
-<title>Funciones con DF</title>
+<title>Tarea8</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,91 +350,216 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Funciones con DF</h1>
+<h1 class="title toc-ignore">Tarea8</h1>
 <h4 class="author">Sebastian Landeo</h4>
 <h4 class="date">2024-07-25</h4>
 
 </div>
 
 
-<pre class="r"><code>str(iris)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
-##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
-##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
-##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
-##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
-##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
-<pre class="r"><code>sapply(subset(iris, select = 1:4), mean)</code></pre>
-<pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
-##     5.843333     3.057333     3.758000     1.199333</code></pre>
-<pre class="r"><code>sapply(iris[,1:4], sum)</code></pre>
-<pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
-##        876.5        458.6        563.7        179.9</code></pre>
-<pre class="r"><code>f = function(x){sqrt(sum(x^2))}
-sapply(iris[,1:4], f)</code></pre>
-<pre><code>## Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
-##     72.27621     37.82063     50.82037     17.38764</code></pre>
-<pre class="r"><code>aggregate(Sepal.Length~Species, data = iris, FUN=mean, na.rm=TRUE)</code></pre>
-<pre><code>##      Species Sepal.Length
-## 1     setosa        5.006
-## 2 versicolor        5.936
-## 3  virginica        6.588</code></pre>
-<pre class="r"><code>aggregate(cbind(Sepal.Length, Petal.Length)~Species, data = iris, FUN=mean, na.rm=TRUE)</code></pre>
-<pre><code>##      Species Sepal.Length Petal.Length
-## 1     setosa        5.006        1.462
-## 2 versicolor        5.936        4.260
-## 3  virginica        6.588        5.552</code></pre>
-<pre class="r"><code>head(mtcars)</code></pre>
-<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
-## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
-<pre class="r"><code>str(mtcars)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    32 obs. of  11 variables:
-##  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
-##  $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
-##  $ disp: num  160 160 108 258 360 ...
-##  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
-##  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
-##  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
-##  $ qsec: num  16.5 17 18.6 19.4 17 ...
-##  $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
-##  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
-##  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
-##  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</code></pre>
-<pre class="r"><code>mtcars$cyl = as.factor(mtcars$cyl)
-mtcars$gear = as.factor(mtcars$gear)
-mtcars$carb = as.factor(mtcars$carb)
-str(mtcars)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    32 obs. of  11 variables:
-##  $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
-##  $ cyl : Factor w/ 3 levels &quot;4&quot;,&quot;6&quot;,&quot;8&quot;: 2 2 1 2 3 2 3 1 1 2 ...
-##  $ disp: num  160 160 108 258 360 ...
-##  $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
-##  $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
-##  $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
-##  $ qsec: num  16.5 17 18.6 19.4 17 ...
-##  $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
-##  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
-##  $ gear: Factor w/ 3 levels &quot;3&quot;,&quot;4&quot;,&quot;5&quot;: 2 2 2 1 1 1 1 2 2 2 ...
-##  $ carb: Factor w/ 6 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,..: 4 4 1 1 2 1 4 2 2 4 ...</code></pre>
-<pre class="r"><code>aggregate(mpg~cyl+gear+carb, data=mtcars, FUN=mean, na.rm=TRUE)</code></pre>
-<pre><code>##    cyl gear carb   mpg
-## 1    4    3    1 21.50
-## 2    6    3    1 19.75
-## 3    4    4    1 29.10
-## 4    8    3    2 17.15
-## 5    4    4    2 24.75
-## 6    4    5    2 28.20
-## 7    8    3    3 16.30
-## 8    8    3    4 12.62
-## 9    6    4    4 19.75
-## 10   8    5    4 15.80
-## 11   6    5    6 19.70
-## 12   8    5    8 15.00</code></pre>
+<div id="pregunta-1" class="section level1">
+<h1>Pregunta 1</h1>
+<p>¿Cuántos deportistas aparecen en el data frame?</p>
+<pre class="r"><code>depor = read.csv(&quot;../data/medals.csv&quot;, stringsAsFactors = TRUE)
+head(depor)</code></pre>
+<pre><code>##   X Year     City      Sport     Discipline NOC           Event Event.gender
+## 1 1 1924 Chamonix    Skating Figure skating AUT      individual            M
+## 2 2 1924 Chamonix    Skating Figure skating AUT      individual            W
+## 3 3 1924 Chamonix    Skating Figure skating AUT           pairs            X
+## 4 4 1924 Chamonix  Bobsleigh      Bobsleigh BEL        four-man            M
+## 5 5 1924 Chamonix Ice Hockey     Ice Hockey CAN      ice hockey            M
+## 6 6 1924 Chamonix   Biathlon       Biathlon FIN military patrol            M
+##    Medal
+## 1 Silver
+## 2   Gold
+## 3   Gold
+## 4 Bronze
+## 5   Gold
+## 6 Silver</code></pre>
+<pre class="r"><code>str(depor)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    2311 obs. of  9 variables:
+##  $ X           : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ Year        : int  1924 1924 1924 1924 1924 1924 1924 1924 1924 1924 ...
+##  $ City        : Factor w/ 17 levels &quot;Albertville&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ Sport       : Factor w/ 7 levels &quot;Biathlon&quot;,&quot;Bobsleigh&quot;,..: 6 6 6 2 4 1 6 6 6 6 ...
+##  $ Discipline  : Factor w/ 15 levels &quot;Alpine Skiing&quot;,..: 6 6 6 3 8 2 6 15 15 15 ...
+##  $ NOC         : Factor w/ 45 levels &quot;AUS&quot;,&quot;AUT&quot;,&quot;BEL&quot;,..: 2 2 2 3 6 15 15 15 15 15 ...
+##  $ Event       : Factor w/ 67 levels &quot;10000m&quot;,&quot;1000m&quot;,..: 48 48 56 41 47 54 56 1 1 7 ...
+##  $ Event.gender: Factor w/ 3 levels &quot;M&quot;,&quot;W&quot;,&quot;X&quot;: 1 2 3 1 1 1 3 1 1 1 ...
+##  $ Medal       : Factor w/ 3 levels &quot;Bronze&quot;,&quot;Gold&quot;,..: 3 2 2 1 2 3 3 2 3 2 ...</code></pre>
+<pre class="r"><code># Número de deportistas
+nrow(depor)</code></pre>
+<pre><code>## [1] 2311</code></pre>
+</div>
+<div id="pregunta-2" class="section level1">
+<h1>Pregunta 2</h1>
+<p>¿Cuántos deportistas han ganado medallas de oro? ¿Cuántos han ganado
+medallas de plata? ¿Y cuántos de bronce?</p>
+<pre class="r"><code>colnames(depor)</code></pre>
+<pre><code>## [1] &quot;X&quot;            &quot;Year&quot;         &quot;City&quot;         &quot;Sport&quot;        &quot;Discipline&quot;  
+## [6] &quot;NOC&quot;          &quot;Event&quot;        &quot;Event.gender&quot; &quot;Medal&quot;</code></pre>
+<pre class="r"><code>levels(depor$Medal)</code></pre>
+<pre><code>## [1] &quot;Bronze&quot; &quot;Gold&quot;   &quot;Silver&quot;</code></pre>
+<pre class="r"><code>oro = depor[depor$Medal==&quot;Gold&quot;, ]
+head(oro)</code></pre>
+<pre><code>##     X Year     City      Sport     Discipline NOC      Event Event.gender Medal
+## 2   2 1924 Chamonix    Skating Figure skating AUT individual            W  Gold
+## 3   3 1924 Chamonix    Skating Figure skating AUT      pairs            X  Gold
+## 5   5 1924 Chamonix Ice Hockey     Ice Hockey CAN ice hockey            M  Gold
+## 8   8 1924 Chamonix    Skating  Speed skating FIN     10000m            M  Gold
+## 10 10 1924 Chamonix    Skating  Speed skating FIN      1500m            M  Gold
+## 11 11 1924 Chamonix    Skating  Speed skating FIN      5000m            M  Gold</code></pre>
+<pre class="r"><code>str(oro)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    774 obs. of  9 variables:
+##  $ X           : int  2 3 5 8 10 11 15 21 31 34 ...
+##  $ Year        : int  1924 1924 1924 1924 1924 1924 1924 1924 1924 1924 ...
+##  $ City        : Factor w/ 17 levels &quot;Albertville&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ Sport       : Factor w/ 7 levels &quot;Biathlon&quot;,&quot;Bobsleigh&quot;,..: 6 6 4 6 6 6 6 3 7 7 ...
+##  $ Discipline  : Factor w/ 15 levels &quot;Alpine Skiing&quot;,..: 6 6 8 15 15 15 15 5 4 4 ...
+##  $ NOC         : Factor w/ 45 levels &quot;AUS&quot;,&quot;AUT&quot;,&quot;BEL&quot;,..: 2 2 6 15 15 15 15 18 30 30 ...
+##  $ Event       : Factor w/ 67 levels &quot;10000m&quot;,&quot;1000m&quot;,..: 48 56 47 1 7 22 32 37 10 25 ...
+##  $ Event.gender: Factor w/ 3 levels &quot;M&quot;,&quot;W&quot;,&quot;X&quot;: 2 3 1 1 1 1 1 1 1 1 ...
+##  $ Medal       : Factor w/ 3 levels &quot;Bronze&quot;,&quot;Gold&quot;,..: 2 2 2 2 2 2 2 2 2 2 ...</code></pre>
+<pre class="r"><code>nrow(oro)</code></pre>
+<pre><code>## [1] 774</code></pre>
+<pre class="r"><code>plata = depor[depor$Medal==&quot;Silver&quot;, ]
+head(plata)</code></pre>
+<pre><code>##     X Year     City     Sport     Discipline NOC           Event Event.gender
+## 1   1 1924 Chamonix   Skating Figure skating AUT      individual            M
+## 6   6 1924 Chamonix  Biathlon       Biathlon FIN military patrol            M
+## 7   7 1924 Chamonix   Skating Figure skating FIN           pairs            X
+## 9   9 1924 Chamonix   Skating  Speed skating FIN          10000m            M
+## 12 12 1924 Chamonix   Skating  Speed skating FIN           5000m            M
+## 20 20 1924 Chamonix Bobsleigh      Bobsleigh GBR        four-man            M
+##     Medal
+## 1  Silver
+## 6  Silver
+## 7  Silver
+## 9  Silver
+## 12 Silver
+## 20 Silver</code></pre>
+<pre class="r"><code>str(plata)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    773 obs. of  9 variables:
+##  $ X           : int  1 6 7 9 12 20 26 29 30 32 ...
+##  $ Year        : int  1924 1924 1924 1924 1924 1924 1924 1924 1924 1924 ...
+##  $ City        : Factor w/ 17 levels &quot;Albertville&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ Sport       : Factor w/ 7 levels &quot;Biathlon&quot;,&quot;Bobsleigh&quot;,..: 6 1 6 6 6 2 6 6 6 7 ...
+##  $ Discipline  : Factor w/ 15 levels &quot;Alpine Skiing&quot;,..: 6 2 6 15 15 3 15 15 15 4 ...
+##  $ NOC         : Factor w/ 45 levels &quot;AUS&quot;,&quot;AUT&quot;,&quot;BEL&quot;,..: 2 15 15 15 15 18 30 30 30 30 ...
+##  $ Event       : Factor w/ 67 levels &quot;10000m&quot;,&quot;1000m&quot;,..: 48 54 56 1 22 41 7 24 32 10 ...
+##  $ Event.gender: Factor w/ 3 levels &quot;M&quot;,&quot;W&quot;,&quot;X&quot;: 1 1 3 1 1 1 1 1 1 1 ...
+##  $ Medal       : Factor w/ 3 levels &quot;Bronze&quot;,&quot;Gold&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...</code></pre>
+<pre class="r"><code>nrow(plata)</code></pre>
+<pre><code>## [1] 773</code></pre>
+<pre class="r"><code>bronce = depor[depor$Medal==&quot;Bronze&quot;, ]
+head(bronce)</code></pre>
+<pre><code>##     X Year     City     Sport      Discipline NOC               Event
+## 4   4 1924 Chamonix Bobsleigh       Bobsleigh BEL            four-man
+## 13 13 1924 Chamonix   Skating   Speed skating FIN                500m
+## 14 14 1924 Chamonix   Skating   Speed skating FIN combined (4 events)
+## 16 16 1924 Chamonix    Skiing Cross Country S FIN                18km
+## 17 17 1924 Chamonix  Biathlon        Biathlon FRA     military patrol
+## 18 18 1924 Chamonix   Curling         Curling FRA             curling
+##    Event.gender  Medal
+## 4             M Bronze
+## 13            M Bronze
+## 14            M Bronze
+## 16            M Bronze
+## 17            M Bronze
+## 18            M Bronze</code></pre>
+<pre class="r"><code>str(bronce)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    764 obs. of  9 variables:
+##  $ X           : int  4 13 14 16 17 18 19 22 23 24 ...
+##  $ Year        : int  1924 1924 1924 1924 1924 1924 1924 1924 1924 1924 ...
+##  $ City        : Factor w/ 17 levels &quot;Albertville&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ Sport       : Factor w/ 7 levels &quot;Biathlon&quot;,&quot;Bobsleigh&quot;,..: 2 6 6 7 1 3 6 4 6 6 ...
+##  $ Discipline  : Factor w/ 15 levels &quot;Alpine Skiing&quot;,..: 3 15 15 4 2 5 6 8 6 15 ...
+##  $ NOC         : Factor w/ 45 levels &quot;AUS&quot;,&quot;AUT&quot;,&quot;BEL&quot;,..: 3 15 15 15 16 16 16 18 18 30 ...
+##  $ Event       : Factor w/ 67 levels &quot;10000m&quot;,&quot;1000m&quot;,..: 41 24 32 10 54 37 56 47 48 1 ...
+##  $ Event.gender: Factor w/ 3 levels &quot;M&quot;,&quot;W&quot;,&quot;X&quot;: 1 1 1 1 1 1 3 1 2 1 ...
+##  $ Medal       : Factor w/ 3 levels &quot;Bronze&quot;,&quot;Gold&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<pre class="r"><code>nrow(bronce)</code></pre>
+<pre><code>## [1] 764</code></pre>
+<pre class="r"><code># Usar cat() para mostrar múltiples elementos
+cat(&quot;Numero de medallas de oro:&quot;, nrow(oro), &quot; plata:&quot;, nrow(plata), &quot; bronce:&quot;, nrow(bronce), &quot;\n&quot;)</code></pre>
+<pre><code>## Numero de medallas de oro: 774  plata: 773  bronce: 764</code></pre>
+<p>Forma 2</p>
+<pre class="r"><code>aggregate(X~Medal,data=depor, FUN = length)</code></pre>
+<pre><code>##    Medal   X
+## 1 Bronze 764
+## 2   Gold 774
+## 3 Silver 773</code></pre>
+</div>
+<div id="pregunta-3" class="section level1">
+<h1>Pregunta 3</h1>
+<p>¿En cuántos lugares se han hecho olimpiadas de invierno?</p>
+<pre class="r"><code>nlevels(depor$City)</code></pre>
+<pre><code>## [1] 17</code></pre>
+</div>
+<div id="pregunta-4" class="section level1">
+<h1>Pregunta 4</h1>
+<p>¿Cuántos hombres y cuántas mujeres hay?</p>
+<pre class="r"><code>hombres = depor[depor$Event.gender==&quot;M&quot;,]
+nrow(hombres)</code></pre>
+<pre><code>## [1] 1386</code></pre>
+<pre class="r"><code>mujeres = depor[depor$Event.gender==&quot;W&quot;,]
+nrow(mujeres)</code></pre>
+<pre><code>## [1] 802</code></pre>
+<pre class="r"><code>cat(&quot;Numero de hombres:&quot;, nrow(hombres), &quot; mujeres:&quot;, nrow(mujeres), &quot;\n&quot;)</code></pre>
+<pre><code>## Numero de hombres: 1386  mujeres: 802</code></pre>
+<p>Forma 2</p>
+<pre class="r"><code>aggregate(X~Event.gender, data=depor, FUN=length)</code></pre>
+<pre><code>##   Event.gender    X
+## 1            M 1386
+## 2            W  802
+## 3            X  123</code></pre>
+</div>
+<div id="pregunta-5" class="section level1">
+<h1>Pregunta 5</h1>
+<p>¿En qué año participaron más deportistas?</p>
+<pre class="r"><code>depor$Year = as.factor(depor$Year)
+años = aggregate(X~Year, data=depor, FUN=length)
+años_ordenado = años[order(-años$X),]
+años_ordenado</code></pre>
+<pre><code>##    Year   X
+## 20 2006 252
+## 19 2002 234
+## 18 1998 205
+## 17 1994 183
+## 16 1992 171
+## 15 1988 138
+## 14 1984 117
+## 13 1980 115
+## 12 1976 111
+## 10 1968 106
+## 11 1972 105
+## 9  1964 103
+## 8  1960  81
+## 7  1956  72
+## 5  1948  68
+## 6  1952  67
+## 4  1936  51
+## 1  1924  49
+## 3  1932  42
+## 2  1928  41</code></pre>
+<p>#Pregunta 6 El campo NOC indica el país del ganador de la medalla.
+¿Qué país puede presumir de haber ganado más medallas de oro en los
+juegos de invierno entre 1960 y 1996?</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.4.1</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>#as.integer(depor$Year)
+#subset(depor, Year&gt;1960 &amp; Year&lt;1996, select = starts_with(&quot;Year&quot;))</code></pre>
+</div>
 
 
 
