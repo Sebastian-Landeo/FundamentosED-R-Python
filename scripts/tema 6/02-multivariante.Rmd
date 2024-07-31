@@ -1,0 +1,26 @@
+---
+title: "Multivariable"
+author: "Sebastian Landeo"
+date: "2024-07-31"
+output: html_document
+---
+# Datos multidimensionales
+## Ejemplo con 3 dimensiones
+```{r}
+ans = sample(c("Si","No"), size=100, replace=TRUE)
+sex = sample(c("H","M"), size=100, replace=TRUE)
+place = sample(c("San Francisco", "Barcelona", "Valencia", "Cobija", "Asturias"), size = 100, replace = TRUE)
+table(sex, ans, place)
+
+ftable(sex, ans, place)
+ftable(sex, ans, place, col.vars = c("sex","ans"))
+```
+### Filtrar las tablas
+```{r}
+table(sex, ans, place)["M", "Si", "San Francisco"]
+table(sex, ans, place)[,"Si","Valencia"]
+table(sex, ans, place)[,"No",]
+table(sex, ans, place)["M",,"Cobija"]
+```
+
+

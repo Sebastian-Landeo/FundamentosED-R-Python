@@ -1,0 +1,118 @@
+---
+title: "Tema 6"
+author: "Sebastian Landeo"
+date: "2024-07-29"
+output: html_document
+---
+# Tablas de contigencia
+```{r}
+x = sample(1:5, size = 12, replace = TRUE)
+x
+```
+```{r}
+Respuestas = factor(sample(c("Si","No"), size = 12, replace = TRUE))
+Respuestas
+```
+```{r}
+table(x)
+table(Respuestas)
+names(table(x))
+names(table(Respuestas))
+z=factor(x, levels=1:7)
+z
+table(z)
+```
+```{r}
+table(x)[3]
+table(x)["7"]
+```
+```{r}
+table(x)["5"]
+3*table(x)[2]
+sum(table(x))
+sqrt(table(Respuestas))
+sqrt(table(x))
+```
+```{r}
+datos = factor(c("H","M","M","M","H","H","M","M"))
+table(datos)
+sum(table(datos))
+```
+# Tablas de frecuencias relativas
+```{r}
+prop.table(table(x))
+prop.table(table(Respuestas))
+```
+```{r}
+x=c(1,1,1)
+prop.table(table(x))
+prop.table(x)
+```
+```{r}
+x
+table(x)
+table(x)/length(x)
+names(which(table(x)==2))
+names(which(table(x)==max(table(x))))
+names(which(table(Respuestas)==max(table(Respuestas))))
+```
+```{r}
+generos = c(rep("H",6), rep("M", 14))
+prop.table(table(generos))
+100*prop.table(table(generos))
+table(datos)/length(datos)
+names(which(table(datos)==3))
+
+moda = function(d){
+  names(which(table(d)==max(table(d))))
+}
+
+m_t = moda(datos)
+```
+La moda del data frame es: `r m_t`
+
+```{r}
+Respuestas
+Sexo = sample(c("H", "M"), size=length(Respuestas), replace=T)
+Sexo
+table(Respuestas,  Sexo)
+table(Sexo, Respuestas)
+t(table(Respuestas,  Sexo))
+```
+```{r}
+Sexo
+Respuestas
+table(Respuestas, Sexo)
+table(Respuestas, Sexo)[1,2]
+table(Respuestas, Sexo)["No","M"]
+prop.table(table(Sexo, Respuestas))
+prop.table(table(Sexo, Respuestas), margin=1)
+prop.table(table(Sexo, Respuestas), margin=2)
+```
+# Paquete `gmodels`
+```{r}
+install.packages("gmodels")
+library(gmodels)
+sex = factor(c("H","M","M","M","H","H","M","M"))
+ans = factor(c("S","N","S","S","S","N","N","S"))
+CrossTable(sex, ans, prop.chisq = FALSE)
+```
+```{r}
+tt <- table(sex, ans)
+tt
+prop.table(tt)
+prop.table(tt, margin = 1)
+prop.table(tt, margin = 2)
+
+colSums(tt)
+rowSums(tt)
+colSums(prop.table(tt))
+rowSums(prop.table(tt))
+
+apply(tt, FUN = sum, MARGIN = 1)
+apply(tt, FUN = sqrt, MARGIN = c(1,2))
+```
+
+
+
+
