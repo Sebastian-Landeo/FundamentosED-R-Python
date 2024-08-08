@@ -1,0 +1,29 @@
+---
+title: "02-medidas-posición"
+author: "Sebastian Landeo"
+date: "2024-08-06"
+output: html_document
+---
+
+## Ejemplo 3
+```{r}
+dado = rep(c(1,2,3,4), c(19, 14, 9, 8))
+dado
+sort(dado)
+df.dado = data.frame(Puntuacion = 1:4,
+                     Fr.abs = as.vector(table(dado)),
+                     Fr.rel = as.vector(round(prop.table(table(dado)),2)),
+                     Fr.acu = as.vector(cumsum(table(dado))),
+                     Fr.racu = as.vector(round(cumsum(prop.table(table(dado))),2))
+                    )
+df.dado
+dado[15]
+```
+```{r}
+dados2 = c(6, 2, 3, 4, 6, 2, 6, 6, 4, 4, 1, 2, 2, 5, 3)
+dados2
+sort(dados2)
+quantile(dados2, 0.25) #Primer cuartil
+quantile(dados2, 0.8) #Octavo percentil
+```
+

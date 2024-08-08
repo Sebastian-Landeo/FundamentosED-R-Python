@@ -1,0 +1,79 @@
+---
+title: "Medidas de dispersión"
+author: "Sebastian Landeo"
+date: "2024-08-07"
+output: html_document
+---
+
+### Ejemplo 4
+```{r}
+dados2 = c(6, 2, 3, 4, 6, 2, 6, 6, 4, 4, 1, 2, 2, 5, 3)
+dados2
+range(dados2)
+diff(range(dados2))
+IQR(dados2)
+
+var(dados2)
+sd(dados2)
+
+n = length(dados2)
+var(dados2)*(n-1)/n
+sd(dados2)*sqrt((n-1)/n)
+
+```
+### Ejemplo 5
+```{r}
+cangrejos = read.table("../../data/datacrab.txt", header = TRUE) #Cargamos el data frame
+cangrejos = cangrejos[-1] #Eliminamos la primera columna
+summary(cangrejos) #Aplicamos la función summary
+```
+```{r}
+summary(subset(cangrejos, color==3, c("weight", "width")))
+summary(subset(cangrejos, color==5, c("weight", "width")))
+```
+```{r}
+by(iris[,c(1,3)], iris$Species, FUN = summary)
+```
+```{r}
+iris
+typeof(iris)
+aggregate(cbind(Sepal.Length, Petal.Length)~Species, data = iris, FUN=summary)
+# El r no me lo muestra a menos que use el knit
+```
+#Ejemplo 7
+```{r}
+x = c(1,2,3, NA)
+sum(x)
+sum(x, na.rm = TRUE)
+mean(x)
+mean(x, na.rm = TRUE)
+var(x)
+var(x, na.rm = TRUE)
+sd(x)
+sd(x, na.rm = TRUE)
+```
+```{r}
+dadosNA = c(dados2, NA)
+dadosNA
+mean(dadosNA)
+mean(dadosNA, na.rm = TRUE)
+```
+```{r}
+dados2
+boxplot(dados2, main="Un diagrama de caja")
+sort(dados2)
+```
+```{r}
+boxplot(dado, dados, dados2)
+```
+```{r}
+body = read.table("../../data/bodyfat.txt", header = TRUE)
+boxplot(body)
+```
+```{r}
+boxplot(iris)
+boxplot(iris[, 1:4])
+boxplot(iris[, 1:4], col="lightblue")
+```
+
+

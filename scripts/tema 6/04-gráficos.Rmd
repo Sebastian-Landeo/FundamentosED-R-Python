@@ -1,0 +1,59 @@
+---
+title: "04-gráficos"
+author: "Sebastian Landeo"
+date: "2024-08-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Gráficos
+
+## Diagrama de barras
+```{r}
+table(Sexo)
+barplot(table(Sexo), col=c("lightblue", "pink"), main="Diagrama de barras de
+        las frecuencias absolutas\n de la variable \"Sexo\"")
+barplot(prop.table(table(Respuestas)), main="Diagrama de barras de
+        las frecuencias relativas\n de la variable \"Respuestas\"")
+```
+```{r}
+par(mfrow=c(1,2))
+barplot(table(Respuestas), col=c("green"))
+barplot(table(Respuestas), col=c("red","blue"))
+```
+```{r}
+barplot(table(Sexo, Respuestas), legend.text = TRUE)
+```
+```{r}
+barplot(table(Sexo, Respuestas), beside = TRUE, legend.text = TRUE)
+```
+```{r}
+barplot(table(Respuestas, Sexo), beside = TRUE, names=c("Men","Women"),
+        col=c("yellow","lightblue"), legend.text = c("No","Yes"))
+```
+## Gráficos circulares
+```{r}
+x
+pie(table(x), main="Diagrama circular de la variable x")
+Respuestas
+pie(table(Respuestas), main="Diagrama circular de la variable Respuestas")
+```
+## Gráficos de Mosaico
+```{r}
+ plot(table(Sexo, Respuestas), main="Gráfico de mosaico de las variables
+      \"Sexo\" y\"Respuestas\"")
+```
+```{r}
+plot(HairEyeColor, Imain="Gráfico de mosaico de la tabla HairEyeColor",
+     col=c("pink","lightblue"))
+```
+```{r}
+cotabplot(HairEyeColor)
+mosaic3d(HairEyeColor, type="expected",  box=TRUE, col = c("lightblue", "pink"))
+```
+
+

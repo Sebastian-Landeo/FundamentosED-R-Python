@@ -1,0 +1,52 @@
+---
+title: "03-people"
+author: "Sebastian Landeo"
+date: "2024-07-31"
+output:
+  html_document: default
+  pdf_document: default
+---
+# Ejemplo de color de ojos y de pelo
+```{r}
+HairEyeColor
+sum(HairEyeColor)->total
+```
+El total de individuos de la tabla de datos es `r total`
+```{r}
+prop.table(HairEyeColor, margin = 3)
+prop.table(HairEyeColor, margin = c(1,2))
+```
+```{r}
+aperm(HairEyeColor, perm=c("Sex", "Hair", "Eye"))
+```
+```{r}
+library(kableExtra)
+kable(HairEyeColor)
+```
+
+```{r, results="asis"}
+library(xtable)
+sex = factor(c("H","M","M","M","H","H","M","M"))
+ans = factor(c("S","N","S","S","S","N","N","S"))
+xtable(table(sex, ans))
+```
+```{r}
+Beb_Energ = read.table("../../data/EnergyDrink", header = TRUE, stringsAsFactors = TRUE)
+Beb_Energ
+str(Beb_Energ)
+head(Beb_Energ, 4)
+summary(Beb_Energ)
+summary(Beb_Energ)[,2]
+apply(Beb_Energ, MARGIN = 2, FUN = table)
+```
+```{r}
+apply(Beb_Energ, MARGIN = 2, FUN = table)$sexo
+table(Beb_Energ$sexo)
+table(Beb_Energ[c(1,3)])
+ftable(Beb_Energ)
+prop.table(table(Beb_Energ), margin = 2)
+```
+```
+
+
+

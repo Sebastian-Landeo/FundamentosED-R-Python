@@ -1,0 +1,34 @@
+---
+title: "Medias"
+author: "Sebastian Landeo"
+date: "2024-08-06"
+output: html_document
+---
+```{r}
+x = c(32, 45, 67, 43, 28, 17, 48, 95)
+n=length(x)
+```
+
+## Media artimética
+$$\bar{x}=\frac{1}{n}\sum_{i=1}^n x_i$$.
+```{r}
+sum(x)/n
+```
+## Media aritmética ponderada
+$$\frac{\sum_{i=1}^nw_i\cdot x_i}{\sum_{i=1}^n w_i}$$
+```{r}
+w=c(1,2,2,3,3,2,2,1)
+sum(w*x)/sum(w)
+```
+## Media geométrica
+$$\left(\prod_{i=1}^n x_i\right)^{1/n}$$
+```{r}
+prod(x)^(1/n)
+prod(x^(1/n))
+```
+## Media armónica
+$$\bar{x}_A = \frac{n}{\sum_{i=1}^{n}\frac{1}{x_i}}$$
+```{r}
+n/sum(1/x)
+```
+

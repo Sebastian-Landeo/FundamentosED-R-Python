@@ -1,0 +1,148 @@
+---
+title: "Estudio de Bebés Recién Nacidos"
+author: "Sebastian Landeo"
+date: "2024-08-02"
+output: html_document
+---
+
+## Pregunta 1
+Utiliza str() y head() para explorar la estructura, y con help(), mirar el significado de cada variable.
+
+**low**
+
+indicador de peso al nacer inferior a 2,5 kg.
+
+**age**
+
+edad de la madre en años.
+
+**lwt**
+
+peso de la madre en libras en el último período menstrual.
+
+**race**
+
+raza de la madre (1 = blanca, 2 = negra, 3 = otra).
+
+**smoke**
+
+estado de tabaquismo durante el embarazo.
+
+**ptl**
+
+número de partos prematuros previos.
+
+**ht**
+
+antecedentes de hipertensión.
+
+**ui**
+
+presencia de irritabilidad uterina.
+
+**ftv**
+
+número de visitas al médico durante el primer trimestre.
+
+**bwt**
+
+peso al nacer en gramos.
+
+```{r}
+library(MASS)
+copia = birthwt
+str(copia)
+head(copia)
+help("birthwt")
+```
+## Pregunta 2
+Calcula una tabla de frecuencias relativas marginales de los pares raza de la madre y peso inferior a 2.5 kg
+o no, que permita ver si la raza de la madre influye en el peso del bebé.
+```{r}
+tablita = table(copia$race,copia$low)
+dimnames(tablita) =list(Raza = c("Blanca", "Negra", "Otra"), Peso = c("Mayor a 2.5kg", "Menor a 2.5kg"))
+tablita
+prop.table(tablita, margin = 1)
+```
+## Pregunta 3
+Dibuja un diagrama de mosaico de la tabla del ejercicio anterior.
+```{r}
+#Primera variable en el eje x, la segunda en el eje y
+plot(prop.table(tablita))
+# Da lo mismo
+# plot(prop.table(tablita), margin = 1)
+# plot(prop.table(tablita), margin = 2)
+```
+## Pregunta 4
+Dibuja un diagrama bidimensional de barras, con las barras organizadas en bloques, que permita visualizar
+la información de los ejercicios anteriores. Aprovecha para poner nombres adecuados a los bloques, colores
+a las barras y añadir una leyenda que explique qué representa cada barra.
+```{r}
+barplot(prop.table(tablita, margin = 1), main = "Peso del bebé respecto a la raza",
+        beside = TRUE,
+        legend.text = TRUE,
+        col = c("red","blue","green"),
+        ylim = c(0,0.8))
+#Si pones margin 2, harías un frecuencia relativa marginal respecto al peso, y no a la raza que es lo que te piden
+#La división o proporcion o frecuencia relativa, nos permite que los datos entre si no sean tan equidistantes
+```
+## Pregunta 5
+¿Se puede obtener alguna conclusión de la tabla y el diagrama de barras anterior? Argumenta tu respuesta.
+No hay una disparidad muy notable, no se puede decir que la raza influya en el peso.
+## Pregunta 6
+Repite los cuatro ejercicios anteriores para los pares madre fumadora o no, peso inferior a 2.5 kg o no y para
+los pares madre hipertensa o no y peso inferior a 2.5 kg o no.
+- pares madre fumadora o no, peso inferior a 2.5
+- pares madre hipertensa o no y peso inferior a 2.5 kg o no.
+```{r}
+fumadorxpeso = table(copia$smoke,copia$low)
+dimnames(fumadorxpeso) =list(Fumadora = c("No", "Sí"), Peso = c("Mayor a 2.5kg", "Menor a 2.5kg"))
+fumadorxpeso
+prop.table(fumadorxpeso, margin = 1)
+plot(prop.table(fumadorxpeso))
+barplot(prop.table(fumadorxpeso, margin = 1), main = "Peso del bebé respecto a fumar",
+        beside = TRUE,
+        legend.text = TRUE,
+        col = c("green","red"),
+        ylim = c(0,0.8))
+```
+**Conclusión**
+
+De la mayoría de los que tienen un peso menor a 2.5 kg, son fumadores
+
+```{r}
+hipertencionxpeso = table(copia$ht,copia$low)
+dimnames(hipertencionxpeso) =list(Hipertensión = c("No", "Sí"), Peso = c("Mayor a 2.5kg", "Menor a 2.5kg"))
+hipertencionxpeso
+prop.table(hipertencionxpeso, margin = 1)
+plot(prop.table(hipertencionxpeso))
+barplot(prop.table(hipertencionxpeso, margin = 1), main = "Peso del bebé respecto a la hipertensión",
+        beside = TRUE,
+        legend.text = TRUE,
+        col = c("green","red"),
+        ylim = c(0,0.8))
+```
+**Conclusión**
+
+De la mayoría de los que tienen un peso mayor a 2.5 kg, son no fumadores
+De la mayoría de los que tienen un peso menor a 2.5 kg, son fumadores
+
+## Pregunta 7
+Calcula una tabla de frecuencias relativas marginales de la terna raza de la madre, madre fumadora o no y peso inferior a 2.5 kg o no, que permita ver si la raza de la madre y su condición de fumadora o no fumadora influyen en el peso del bebé.
+```{r}
+rfxpeso = table(copia$race, copia$smoke, copia$low)
+dimnames(rfxpeso) =list(Raza = c("Blanca", "Negra", "Otra"),
+                        Fuma = c("No", "Sí"), 
+                        Peso = c("Mayor a 2.5kg", "Menor a 2.5kg"))
+rfxpeso
+ftable(rfxpeso)
+prop.table(rfxpeso, margin = c(1,2))
+plot(prop.table(rfxpeso))
+# Ejemplo dentro de las personas blancas y que no fuman, el 0.9 de ellos tiene un peso mayor a 2.5
+```
+# Pregunta 8
+Dibuja un diagrama de mosaico de la tabla del ejercicio anterior.
+```{r}
+plot(rfxpeso, main = "Gráfico de mosaico", cex.axis=0.4)
+```
+

@@ -1,0 +1,48 @@
+---
+title: "Datos cuantitativos"
+author: "Sebastian Landeo"
+date: "2024-08-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+edad = c(15,18,25,40,30,29,56,40,13,27,42,23,11,26,25,32,30,40,33,29)
+table(edad)
+prop.table(table(edad))
+cumsum(table(edad))
+round(cumsum(table(edad)))
+cumsum(prop.table(table(edad)))
+```
+### Ejemplo 2
+```{r}
+dados = c(6,6,6,1,2,3,2,5,1,3,2,4,1,2,2,6,3,6,3,5,3,1,3,2,4)
+dados
+length(dados)
+table(dados)
+round(prop.table(table(dados)), 2)
+cumsum(table(dados))
+round(cumsum(prop.table(table(dados))), 2)
+dados.df = data.frame(Puntuacion = 1:6,
+                      Fr.abs = as.vector(table(dados)),
+                      Fr.rel = as.vector(round(prop.table(table(dados)), 2)),
+                      Fr.acu = as.vector(cumsum(table(dados))),
+                      Fr.racu = as.vector(round(cumsum(prop.table(table(dados))),2)))
+dados.df
+```
+# Mediadas de tendencia central
+```{r}
+edad
+dados
+sort(edad)
+mean(edad)
+mean(dados)
+median(edad)
+median(dados)
+as.numeric(names(which(table(edad)==max(table(edad)))))
+as.numeric(names(which(table(dados)==max(table(dados)))))
+```
+
