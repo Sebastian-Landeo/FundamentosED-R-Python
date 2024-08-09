@@ -75,5 +75,41 @@ boxplot(iris)
 boxplot(iris[, 1:4])
 boxplot(iris[, 1:4], col="lightblue")
 ```
+```{r}
+boxplot(iris)
+boxplot(iris[,1:4])
+boxplot(iris[,1:4], col = "lightblue")
+
+boxplot(iris$Sepal.Length~iris$Species)
+boxplot(Sepal.Length~Species, data = iris)
+cangrejos = read.table("../../data/datacrab.txt", header = TRUE)
+boxplot(weight~color, data = cangrejos)
+boxplot(circumference~Tree, data = Orange, ylab = "Circunferencia del tronco (mm)",
+        main = "Boxplot de los naranjos en función del tipo de árbol")
+```
+### Ejemplo 10
+```{r}
+boxplot(weight~color, data = cangrejos)
+boxplot(weight~color, data = cangrejos, notch = TRUE)
+boxplot(Sepal.Width~Species, data = iris, ylab= "Anchura del sétalo (cm)",
+        notch = TRUE, col = c("cyan", "cyan2", "cyan4"),
+        main = "Boxplot de iris")
+```
+```{r}
+boxplot(Sepal.Width~Species, data = iris, ylab= "Anchura del sétalo (cm)")
+medias = aggregate(Sepal.Width~Species, data = iris, FUN = mean)
+points(medias, col = "blue", pch = 15)
+
+boxplot(weight~color, data = cangrejos, notch = TRUE)
+medias = aggregate(weight~color, data = cangrejos, FUN = mean)
+points(medias, col="red", pch=21)
+
+str(boxplot(weight~color, data = cangrejos, notch = TRUE))
+str(boxplot(circumference~Tree, data=Orange))
+
+boxplot(weight~color, data = cangrejos, notch = TRUE)$stats
+boxplot(weight~color, data = cangrejos, notch = TRUE)$out
+boxplot(weight~color, data = cangrejos, notch = TRUE)$group
+```
 
 

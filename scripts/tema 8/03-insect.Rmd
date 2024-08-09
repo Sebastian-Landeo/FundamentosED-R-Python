@@ -1,0 +1,21 @@
+---
+title: "Insectisida"
+author: "Sebastian Landeo"
+date: "2024-08-08"
+output: html_document
+---
+# Análisis de spray insecticida
+Cargamos los datos del data set de `R` llamado `InsectSprays`
+```{r}
+insectisida = InsectSprays
+head(insectisida)
+str(insectisida)
+
+by(insectisida$count, insectisida$spray, FUN=summary)
+
+aggregate(count~spray, data = insectisida, FUN = sd)
+
+boxplot(count~spray, data = insectisida, col="lightgreen",
+        xlab = "Tipo de Spray", ylab = "Insectos muertos")
+```
+
