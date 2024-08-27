@@ -1,0 +1,290 @@
+---
+title: "Función Cut"
+author: "Sebastian Landeo"
+date: "2024-08-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+petals = iris$Petal.Length
+range(petals) # 1.0 y 6.9
+cut(petals, breaks = 5, right = FALSE)
+cut(petals, breaks = ceiling(sqrt(length(petals))), right = FALSE)
+cut(petals, breaks = c(1,2,3,4,5,6,7), right = FALSE)
+cut(petals, breaks = 5, rigth = FALSE, labels = FALSE)
+cut(petals, breaks = 5, right = FALSE, 
+    labels = c("Peq","Norm", "Gran", "XGran", "Gigan"))
+hist(petals, breaks = 6, plot = FALSE)
+```
+```{r}
+irisdf = iris
+irisdf$div1 = cut(petals, breaks = 5, right = FALSE)
+irisdf$div2 = cut(petals, breaks = ceiling(sqrt(length(petals))), right = FALSE)
+irisdf$div3 = cut(petals, breaks = c(1,2,3,4,5,6,7), right = FALSE)
+irisdf$div4 = cut(petals, breaks = 5, rigth = FALSE, labels = FALSE)
+irisdf$div5 = cut(petals, breaks = 5, right = FALSE, 
+    labels = c("Peq","Norm", "Gran", "XGran", "Gigan"))
+str(irisdf)
+```
+```{r}
+prueba = hist(petals, breaks = 5, right = FALSE, plot = FALSE)$counts
+typeof(prueba)
+print(prueba)
+```   
+```{r}
+table(irisdf$div1)
+prop.table(table(irisdf$div1))
+```
+### Tabla de frecuencias
+#### Función 1
+```{r}
+TablaFrecs = function(x,k,A,p){ 
+  L = min(x)-p/2+A*(0:k)
+  x_cut = cut(x, breaks = L, right=FALSE)
+  intervals = levels(x_cut)
+  mc = (L[1]+L[2])/2+A*(0:(k-1))
+  Fr.abs = as.vector(table(x_cut)) 
+  Fr.rel = round(Fr.abs/length(x),4) 
+  Fr.cum.abs = cumsum(Fr.abs) 
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals, mc, Fr.abs, Fr.cum.abs, Fr.rel, Fr.cum.rel)
+  tabla
+  }
+```
+#### Función 2
+```{r}
+TablaFrecs.L = function(x,L,V){
+  x_cut = cut(x, breaks=L, right=FALSE, include.lowest=V)
+  intervals = levels(x_cut)
+  mc = (L[1:(length(L)-1)]+L[2:length(L)])/2
+  Fr.abs = as.vector(table(x_cut)) 
+  Fr.rel = round(Fr.abs/length(x),4)
+  Fr.cum.abs = cumsum(Fr.abs)
+  Fr.cum.rel = cumsum(Fr.rel)
+  tabla = data.frame(intervals, mc, Fr.abs, Fr.cum.abs, Fr.rel, Fr.cum.rel)
+  tabla
+  }
+```
+#### Ejemplos
+```{r}
+TablaFrecs(petals, k=6, A=1, p=0.1)
+TablaFrecs.L(petals, L =  1:7, V = FALSE)
+hist(petals, breaks = 4, plot = FALSE)
+
+```
+```{r}
+cangrejos = read.table("../../data/datacrab.txt", sep = " ", header = TRUE)
+cangrejos
+# Trabajar con width
+
+```
+```{r}
+
+```
+```{r}
+TablaFrecs.L(cw, L, FALSE)
+```
+### Ejercicios notas de bachillerato
+Se han recogido las notas de un examen de historia a los 100 alumnos de primero de bachillerato de un instituto.
+
+Vamos a hacer uso de todo lo aprendido para obtener la mayor información posible utilizando las funciones `cut` e `hist` y también, las proporcionadas por nosotros.
+```{r}
+set.seed(4)
+notas = sample(0:10,100, replace = TRUE)
+set.seed(NULL)
+notas
+```
+```{r}
+Ln = c(0,5,7,9,10)
+# include.lowest = TRUE, en este caso si es útil porque sabemos que 10 sera la última nota sí o sí
+notas1 = cut(notas, breaks = Ln, include.lowest = TRUE, right = FALSE)
+notas1
+hist(notas, breaks=Ln, right = FALSE, plot=FALSE)
+```
+### Definimos las marcas de clase
+```{r}
+# for(i in 1:length(L)-1){
+#   mc = c(mc,(L[i]+L[i+1])/2)
+# }
+# mc
+MC = (L[1:length(Ln)-1]+L[2:length(Ln)])/2
+notas2 = cut(notas, breaks = Ln, labels = MC, include.lowest = TRUE, right = FALSE)
+notas2
+```
+```{r}
+notas3 = cut(notas, breaks = Ln, labels=FALSE, right = FALSE, include.lowest = TRUE)
+notas3
+```
+```{r}
+notas4 = cut(notas, breaks = Ln, labels=c("Susp","Aprob","Not","Exc"), right = FALSE, include.lowest = TRUE)
+notas4
+typeof(notas2)
+```
+```{r}
+table(notas4)
+prop.table(table(notas4))
+cumsum(table(notas4))
+cumsum(prop.table(table(notas4)))
+```
+```{r}
+notasHist = hist(notas, breaks = Ln, right = FALSE, include.lowest = TRUE, plot = FALSE)
+FAbs = notasHist$count
+FRel = prop.table(FAbs)
+FAbsCum = cumsum(FAbs)
+FRelCum = cumsum(FRel)
+```
+```{r}
+intervalos = c("[0,5)","[5,7)","[7,9)","[9,10)")
+calificacion = c("Suspenso", "Aprobado", "Notable", "Excelente")
+marcas = notasHist$mids
+tabla.Fr = data.frame(intervalos, calificacion, marcas, FAbs, FAbsCum, FRel, FRelCum)
+tabla.Fr
+```
+```{r}
+cw
+tabla = TablaFrecs.L(cw, L, TRUE)
+tabla
+```
+### Media
+```{r}
+TOT = tabla$Fr.cum.abs[10]
+TOT
+anchura.media = round(sum(tabla$Fr.abs*tabla$mc)/TOT,3)
+anchura.media
+```
+### Variación
+```{r}
+anchura.var =round(sum(tabla$Fr.abs*tabla$mc^2)/TOT-anchura.media^2, 3)
+anchura.var
+```
+### Desviación típica
+```{r}
+anchura.dt = round(sqrt(anchura.var),3)
+anchura.dt
+```
+### Intervalo modal
+```{r}
+I.modal = tabla$intervals[which(tabla$Fr.abs == max(tabla$Fr.abs))]
+I.modal
+```
+### Mediana
+```{r}
+n = TOT
+Lc = L[4]
+Lc.pos = L[5]
+Ac = L[5]-L[4]
+Nc.ant = tabla$Fr.cum.abs[3]
+nc = tabla$Fr.abs[4]
+M = Lc+Ac*((n/2)-Nc.ant)/nc
+M
+```
+```{r}
+median(cw)
+```
+### Cuantiles
+```{r}
+aprox.quantile.p = function(Lcrit, Acrit, n, p, Ncrit.ant, ncrit){
+  round(Lcrit+Acrit*(p*n-Ncrit.ant)/ncrit, 3)
+}
+```
+```{r}
+# Primer cuartil
+aprox.quantile.p(Lc, Ac, n, 0.25, Nc.ant, nc)
+# Mediana
+aprox.quantile.p(Lc, Ac, n, 0.50, Nc.ant, nc)
+# Tercer cuartil
+aprox.quantile.p(Lc, Ac, n, 0.75, Nc.ant, nc)
+```
+## Histogramas
+
+```{r}
+histAbs = function(x, L){
+  h = hist(x, breaks = L, right = FALSE, freq = FALSE,
+           xaxt = "n", yaxt="n", col = "lightgray",
+           main = "Histograma de frecuencias absolutas",
+           xlab = "Intervalos y marcas de la clase", ylab = "Frecuencias absolutas")
+  axis(1, at=L)
+  text(h$mids, h$density/2, labels=h$counts, col="purple")
+}
+```
+```{r}
+histAbsCum = function(x, L){
+  h = hist(x, breaks = L, right = FALSE, plot = FALSE)
+  h$density = cumsum(h$density)
+  plot(h, freq = FALSE, xaxt = "n", yaxt = "n", col = "lightgray",
+       main="Histograma de frecuencias\nabsolutas acumuladas", xlab="Intervalos",
+       ylab = "Frec. absolutas acumuladas")
+  axis(1, at=L)
+  text(h$mids, h$densit/2, labels = cumsum(h$counts), col="purple")
+  }
+```
+```{r}
+notas
+Ln
+hist(notas, Ln, right = FALSE)
+histAbs(notas, Ln)
+histAbsCum(notas, Ln)
+
+cw
+L
+hist(cw, L, right = FALSE, main = "Histograma de las anchuras de los cangrejos")
+hist(cw, L, right = FALSE, plot = FALSE)
+histAbs(cw, L)
+rug(jitter(cw))
+histAbsCum(cw, L)
+
+
+petals
+histAbs(petals, 4)
+#con 5 se genera un intervalo vacío
+histAbsCum(petals, 4)
+```
+### Histogramas de frecuencias relativas
+```{r}
+histRel = function(x,L) {
+  h = hist(x, breaks=L, right=FALSE , plot=FALSE)
+  t = round(1.1*max(max(density(x)[[2]]),h$density),2) 
+  plot(h, freq = FALSE, col = "lightgray", 
+       main = "Histograma de frec. relativas\ny curva de densidad estimada", 
+       xaxt="n", ylim=c(0,t), xlab="Intervalos", ylab="Densidades")
+  axis(1, at = L) 
+  text(h$mids, h$density/2, labels = round(h$counts/length(x),2), col = "blue")
+  lines(density(x), col = "purple", lwd = 2) 
+  }
+```
+#### Acumulada
+```{r}
+histRelCum = function(x,L){
+  h = hist(x, breaks = L, right = FALSE , plot = FALSE)
+  h$density = cumsum(h$counts)/length(x)
+  plot(h, freq = FALSE, 
+      main = "Histograma de frec. rel. acumuladas\n y curva de distribución estimada", 
+      xaxt = "n", col = "lightgray", xlab = "Intervalos", 
+      ylab = "Frec. relativas acumuladas") 
+  axis(1, at = L)
+  text(h$mids, h$density/2, labels = round(h$density ,2), col = "blue")
+  dens.x = density(x)
+  dens.x$y = cumsum(dens.x$y)*(dens.x$x[2]-dens.x$x[1]) 
+  lines(dens.x,col = "purple",lwd = 2)
+}
+```
+
+```{r}
+histAbs(cw, L)
+rug(cw)
+str(density(cw))
+```
+```{r}
+histRel(cw, L)
+curve(dnorm(x, mean(cw), sd(cw)), col="cyan4", lty=4, lwd=2,
+            add = TRUE)
+legend("topright", lwd=c(2,2), lty = c(1,4), col=c("purple", "cyan4"),
+       legend = c("densidad estimada", "densidad normal"))
+```
+```{r}
+histRelCum(cw, L)
+```
+

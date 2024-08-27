@@ -1,0 +1,96 @@
+---
+title: "Tarea12"
+author: "Sebastian Landeo"
+date: "2024-08-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+notas = read.table("../data/grades.txt", header = TRUE, stringsAsFactors = TRUE)
+head(notas)
+str(notas)
+notas
+```
+### Pregunta 1
+Calcula la media, la mediana y la moda redondeada a dos cifras decimales de las notas numéricas de los exámenes tanto de forma conjunta como por estudio universitario. ¿En qué grupo observamos la nota más alta? ¿Qué grupo está por encima de la media de estudiantes?
+```{r}
+#Forma conjunta
+summary(notas[-1],na.rm = TRUE)
+round(mean(notas[,2]), 2)
+round(median(notas[,2]),2)
+as.numeric(names(which(table(notas[,2])==max(table(notas[,2])))))
+#Forma agrupada por estudio universitario
+mmm <- function(x) {
+  media <- round(mean(x), 2)
+  mediana <- round(median(x), 2)
+  
+  # Calcular la moda y seleccionar solo la primera si hay múltiples modas
+  freq_table <- table(x)
+  moda <- round(as.numeric(names(freq_table)[which(freq_table == max(freq_table))]),2)
+  
+  if (length(moda) > 1) {
+    moda <- moda[1]  # Selecciona la primera moda en caso de empate
+  }
+  
+  return(c(media, mediana, moda))
+}
+by(notas[,2], notas$estudio, FUN = mmm)
+
+
+mmm2 <- function(x) {
+  # Crear el resumen de las estadísticas básicas
+  resumen <- round(summary(x),2)
+  
+  # Calcular la moda
+  freq_table <- table(x)
+  moda <- as.numeric(names(freq_table)[which(freq_table == max(freq_table))])
+  
+  # En caso de múltiples modas, selecciona la primera
+  moda <- round(moda[1], 2)
+  
+  # Combinar el resumen con la moda
+  # Los elementos de la lista podian tener etiquetas
+  resultado <- c(resumen, Moda = moda)
+  
+  return(resultado)
+}
+
+# Aplicar la función a cada grupo
+prueba = by(notas[,2], notas$estudio, FUN = mmm2)
+#Prueba es una lista de listas, el elemento principal son los factores, luego el "resultado"
+prueba
+#Respuesta: Industrial y Mates
+```
+### Pregunta 2
+¿En qué grupo observamos más variación de notas? Justifica tu respuesta.
+El que más varia es Mates, porque respecto a su media es el que más varia con el valor de 2.20
+```{r}
+aggregate(nota~estudio, data = notas, FUN = function(x) round(sd(x), 2))
+```
+### Pregunta 3
+¿Hay mucha diferencia entre el grupo que has respondido en el ejercicio 1 y en el ejercicio 2? Intenta dar una explicación objetiva del suceso.
+Entre industrial y mates tienen una desviación similares
+
+### Pregunta 4
+Dibuja en un único gráfico los cuatro diagramas de caja, uno para cada grupo. Añade también la nota media, pon nombre, título y color al gráfico para documentarlo correctamente.
+```{r}
+boxplot(nota~estudio, data = notas, ylab = "Calificación", main = "Notas según el curso",
+        col =c("yellow", "lightblue", "pink", "lightgreen"))
+medias = aggregate(nota~estudio, data = notas, FUN = mean)
+points(medias, col="red", pch=15)
+```
+### Pregunta 5
+¿Observas algunos valores atípicos en el boxplot anterior? ¿A qué grupo pertence?
+En todos los grupos hay, menos en mates
+
+### Pregunta 6
+Indica a partir del boxplot anterior en qué grupo observamos más variedad de notas.
+En mates, su rango cuartilico es mucho más grande
+
+### Pregunta 7
+En base a todo lo anterior, ¿puedes afirmar de forma estadística que el examen de carrera ha ido mejor en algún estudio que en los demás?
+Informática, porque sus datos no son tan dispersos, son más concentrados.
+
